@@ -2,6 +2,7 @@ package the_fireplace.moreanvils.blocks;
 
 import net.minecraft.block.BlockFalling;
 import net.minecraft.block.BlockHorizontal;
+import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.PropertyDirection;
 import net.minecraft.block.properties.PropertyInteger;
@@ -48,6 +49,9 @@ public abstract class MaterialAnvil extends BlockFalling {
         this.setDefaultState(this.blockState.getBaseState().withProperty(FACING, EnumFacing.NORTH).withProperty(DAMAGE, 0));
         this.setLightOpacity(0);
         this.material = mat;
+        setHardness(5.0F);
+        setStepSound(SoundType.ANVIL);
+        setResistance(2000.0F);
     }
 
     public boolean isFullCube(IBlockState state) {
