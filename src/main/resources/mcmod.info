@@ -1,0 +1,19 @@
+[
+{
+  "modid": "moreanvils",
+  "name": "More Anvils",
+  "description": "Adds more anvils",
+  "version": "5.0.0.BUILDNUMBER",
+  "mcversion": "1.9",
+  "url": "",
+  "updateUrl": "",
+  "authorList": ["The_Fireplace"],
+  "credits": "Authored by The_Fireplace",
+  "logoFile": "logo.png",
+  "screenshots": [],
+  "dependencies": [],
+  "requiredMods": [],
+  "dependants": [],
+  "useDependencyInformation": true
+}
+]

@@ -1,12 +1,10 @@
 package the_fireplace.moreanvils.container;
 
-import net.minecraft.block.BlockAnvil;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
-import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.inventory.*;
 import net.minecraft.item.ItemArmor;
@@ -38,6 +36,9 @@ public class ContainerMaterialAnvil extends Container {
      * The maximum cost of repairing/renaming in the anvil.
      */
     public int maximumCost;
+    /**
+     * The cap for the maximum cost, varies by material.
+     */
     public int maximumCap;
     public ItemArmor.ArmorMaterial material;
     /**
@@ -50,11 +51,11 @@ public class ContainerMaterialAnvil extends Container {
      */
     private final EntityPlayer thePlayer;
 
-    /*@SideOnly(Side.CLIENT)
-    public ContainerMaterialAnvil(InventoryPlayer playerInventory, World worldIn, EntityPlayer player)
+    @SideOnly(Side.CLIENT)
+    public ContainerMaterialAnvil(InventoryPlayer playerInventory, World worldIn, EntityPlayer player, MaterialAnvil block)
     {
-        this(playerInventory, worldIn, BlockPos.ORIGIN, player);
-    }*/
+        this(playerInventory, worldIn, BlockPos.ORIGIN, player, block.getArmorMaterial());
+    }
 
     public ContainerMaterialAnvil(InventoryPlayer playerInventory, final World worldIn, final BlockPos blockPosIn, EntityPlayer player, ItemArmor.ArmorMaterial mat) {
         this.maximumCap = 40 / ItemArmor.ArmorMaterial.IRON.getEnchantability() * mat.getEnchantability();
@@ -119,7 +120,7 @@ public class ContainerMaterialAnvil extends Container {
                         worldIn.setBlockToAir(blockPosIn);
                         worldIn.playAuxSFX(1029, blockPosIn, 0);
                     } else {
-                        worldIn.setBlockState(blockPosIn, iblockstate.withProperty(BlockAnvil.DAMAGE, l), 2);
+                        worldIn.setBlockState(blockPosIn, iblockstate.withProperty(MaterialAnvil.DAMAGE, l), 2);
                         worldIn.playAuxSFX(1030, blockPosIn, 0);
                     }
                 } else if (!worldIn.isRemote) {
@@ -353,7 +354,7 @@ public class ContainerMaterialAnvil extends Container {
     }
 
     public boolean canInteractWith(EntityPlayer playerIn) {
-        return this.theWorld.getBlockState(this.selfPosition).getBlock() == Blocks.anvil && playerIn.getDistanceSq((double) this.selfPosition.getX() + 0.5D, (double) this.selfPosition.getY() + 0.5D, (double) this.selfPosition.getZ() + 0.5D) <= 64.0D;
+        return this.theWorld.getBlockState(this.selfPosition).getBlock() instanceof MaterialAnvil && playerIn.getDistanceSq((double) this.selfPosition.getX() + 0.5D, (double) this.selfPosition.getY() + 0.5D, (double) this.selfPosition.getZ() + 0.5D) <= 64.0D;
     }
 
     /**

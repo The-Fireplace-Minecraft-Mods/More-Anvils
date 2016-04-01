@@ -10,12 +10,14 @@ import net.minecraft.item.ItemAnvilBlock;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
+import net.minecraftforge.fml.common.network.NetworkRegistry;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import net.minecraftforge.oredict.ShapedOreRecipe;
 import the_fireplace.moreanvils.blocks.BlockDiamondAnvil;
 import the_fireplace.moreanvils.blocks.BlockGoldAnvil;
+import the_fireplace.moreanvils.gui.MoreAnvilsGuiHandler;
 
 /**
  * @author The_Fireplace
@@ -34,6 +36,14 @@ public class MoreAnvils {
 
     @Mod.EventHandler
     public void preInit(FMLPreInitializationEvent event) {
+        String[] version = event.getModMetadata().version.split("\\.");
+        if (version[3].equals("BUILDNUMBER"))//Dev environment
+            VERSION = event.getModMetadata().version.replace("BUILDNUMBER", "9001");
+        else//Released build
+            VERSION = event.getModMetadata().version;
+
+        NetworkRegistry.INSTANCE.registerGuiHandler(this, new MoreAnvilsGuiHandler());
+
         GameRegistry.registerBlock(diamond_anvil, ItemAnvilBlock.class, "diamond_anvil");
         GameRegistry.registerBlock(gold_anvil, ItemAnvilBlock.class, "gold_anvil");
 
