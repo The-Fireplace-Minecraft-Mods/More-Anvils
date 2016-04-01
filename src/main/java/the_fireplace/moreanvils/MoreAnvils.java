@@ -8,6 +8,7 @@ import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemAnvilBlock;
 import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.fml.common.SidedProxy;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.network.NetworkRegistry;
@@ -18,6 +19,8 @@ import net.minecraftforge.oredict.ShapedOreRecipe;
 import the_fireplace.moreanvils.blocks.BlockDiamondAnvil;
 import the_fireplace.moreanvils.blocks.BlockGoldAnvil;
 import the_fireplace.moreanvils.gui.MoreAnvilsGuiHandler;
+import the_fireplace.moreanvils.network.PacketDispatcher;
+import the_fireplace.moreanvils.network.proxy.Common;
 
 /**
  * @author The_Fireplace
@@ -28,6 +31,9 @@ public class MoreAnvils {
     public static final String MODNAME = "More Anvils";
     public static String VERSION;
     public static final String curseCode = "";
+
+    @SidedProxy(clientSide = "the_fireplace.moreanvils.network.proxy.Client", serverSide = "the_fireplace.moreanvils.network.proxy.Common")
+    public static Common proxy;
 
     public static final CreativeTabs TabMoreAnvils = new TabMoreAnvils("more_anvils");
 
@@ -41,6 +47,8 @@ public class MoreAnvils {
             VERSION = event.getModMetadata().version.replace("BUILDNUMBER", "9001");
         else//Released build
             VERSION = event.getModMetadata().version;
+
+        PacketDispatcher.registerPackets();
 
         NetworkRegistry.INSTANCE.registerGuiHandler(this, new MoreAnvilsGuiHandler());
 
