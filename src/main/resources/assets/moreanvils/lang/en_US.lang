@@ -1,0 +1,13 @@
+tile.diamond_anvil.name=Diamond Anvil
+tile.diamond_anvil.intact.name=Diamond Anvil
+tile.diamond_anvil.slightlyDamaged.name=Slightly Damaged Diamond Anvil
+tile.diamond_anvil.veryDamaged.name=Very Damaged Diamond Anvil
+tile.gold_anvil.name=Gold Anvil
+tile.gold_anvil.intact.name=Gold Anvil
+tile.gold_anvil.slightlyDamaged.name=Slightly Damaged Gold Anvil
+tile.gold_anvil.veryDamaged.name=Very Damaged Gold Anvil
+tile.anvil.name=Iron Anvil
+tile.anvil.intact.name=Iron Anvil
+tile.anvil.slightlyDamaged.name=Slightly Damaged Iron Anvil
+tile.anvil.veryDamaged.name=Very Damaged Iron Anvil
+itemGroup.more_anvils=More Anvils
