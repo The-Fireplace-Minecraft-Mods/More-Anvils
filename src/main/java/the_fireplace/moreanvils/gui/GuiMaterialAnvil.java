@@ -1,6 +1,5 @@
 package the_fireplace.moreanvils.gui;
 
-import io.netty.buffer.Unpooled;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiTextField;
 import net.minecraft.client.gui.inventory.GuiContainer;
@@ -13,8 +12,6 @@ import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemArmor;
 import net.minecraft.item.ItemStack;
-import net.minecraft.network.PacketBuffer;
-import net.minecraft.network.play.client.CPacketCustomPayload;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
@@ -22,6 +19,8 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 import org.lwjgl.input.Keyboard;
 import the_fireplace.moreanvils.blocks.MaterialAnvil;
 import the_fireplace.moreanvils.container.ContainerMaterialAnvil;
+import the_fireplace.moreanvils.network.PacketDispatcher;
+import the_fireplace.moreanvils.network.UpdateRenameMessage;
 
 import java.io.IOException;
 import java.util.List;
@@ -128,6 +127,8 @@ public class GuiMaterialAnvil extends GuiContainer implements ICrafting {
 
     private void renameItem() {
         String s = this.nameField.getText();
+        //TODO: Make sure this works
+        PacketDispatcher.sendToServer(new UpdateRenameMessage(s));
         Slot slot = this.anvil.getSlot(0);
 
         if (slot != null && slot.getHasStack() && !slot.getStack().hasDisplayName() && s.equals(slot.getStack().getDisplayName())) {
@@ -135,7 +136,6 @@ public class GuiMaterialAnvil extends GuiContainer implements ICrafting {
         }
 
         this.anvil.updateItemName(s);
-        this.mc.thePlayer.sendQueue.addToSendQueue(new CPacketCustomPayload("MC|ItemName", (new PacketBuffer(Unpooled.buffer())).writeString(s)));
     }
 
     /**

@@ -17,6 +17,7 @@ import net.minecraftforge.event.AnvilUpdateEvent;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import org.apache.commons.lang3.StringUtils;
+import the_fireplace.moreanvils.MoreAnvils;
 import the_fireplace.moreanvils.blocks.MaterialAnvil;
 
 import java.util.Map;
@@ -45,7 +46,7 @@ public class ContainerMaterialAnvil extends Container {
      * determined by damage of input item and stackSize of repair materials
      */
     public int materialCost;
-    private String repairedItemName;
+    public String repairedItemName;
     /**
      * The player that has this container open.
      */
@@ -142,6 +143,7 @@ public class ContainerMaterialAnvil extends Container {
         for (int k = 0; k < 9; ++k) {
             this.addSlotToContainer(new Slot(playerInventory, k, 8 + k * 18, 142));
         }
+        MoreAnvils.instance.playerAnvilMap.put(player, this);
     }
 
     /**
@@ -340,6 +342,7 @@ public class ContainerMaterialAnvil extends Container {
      * Called when the container is closed.
      */
     public void onContainerClosed(EntityPlayer playerIn) {
+        MoreAnvils.instance.playerAnvilMap.remove(playerIn);
         super.onContainerClosed(playerIn);
 
         if (!this.theWorld.isRemote) {
@@ -420,11 +423,11 @@ public class ContainerMaterialAnvil extends Container {
     public static boolean onAnvilChange(ContainerMaterialAnvil container, ItemStack left, ItemStack right, IInventory outputSlot, String name, int baseCost) {
         AnvilUpdateEvent e = new AnvilUpdateEvent(left, right, name, baseCost);
         if (MinecraftForge.EVENT_BUS.post(e)) return false;
-        if (e.output == null) return true;
+        if (e.getOutput() == null) return true;
 
-        outputSlot.setInventorySlotContents(0, e.output);
-        container.maximumCost = e.cost;
-        container.materialCost = e.materialCost;
+        outputSlot.setInventorySlotContents(0, e.getOutput());
+        container.maximumCost = e.getCost();
+        container.materialCost = e.getMaterialCost();
         return false;
     }
 }

@@ -1,10 +1,12 @@
 package the_fireplace.moreanvils;
 
+import com.google.common.collect.Maps;
 import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.block.model.ModelBakery;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.creativetab.CreativeTabs;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemAnvilBlock;
 import net.minecraftforge.fml.common.Mod;
@@ -18,19 +20,27 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 import net.minecraftforge.oredict.ShapedOreRecipe;
 import the_fireplace.moreanvils.blocks.BlockDiamondAnvil;
 import the_fireplace.moreanvils.blocks.BlockGoldAnvil;
+import the_fireplace.moreanvils.container.ContainerMaterialAnvil;
 import the_fireplace.moreanvils.gui.MoreAnvilsGuiHandler;
 import the_fireplace.moreanvils.network.PacketDispatcher;
 import the_fireplace.moreanvils.network.proxy.Common;
+
+import java.util.Map;
 
 /**
  * @author The_Fireplace
  */
 @Mod(modid = MoreAnvils.MODID, name = MoreAnvils.MODNAME)
 public class MoreAnvils {
+    @Mod.Instance(MoreAnvils.MODID)
+    public static MoreAnvils instance;
+
     public static final String MODID = "moreanvils";
     public static final String MODNAME = "More Anvils";
     public static String VERSION;
-    public static final String curseCode = "";
+    public static final String curseCode = "243578-more-anvils";
+
+    public Map<EntityPlayer, ContainerMaterialAnvil> playerAnvilMap = Maps.newHashMap();
 
     @SidedProxy(clientSide = "the_fireplace.moreanvils.network.proxy.Client", serverSide = "the_fireplace.moreanvils.network.proxy.Common")
     public static Common proxy;
