@@ -17,7 +17,6 @@ import net.minecraftforge.event.AnvilUpdateEvent;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import org.apache.commons.lang3.StringUtils;
-import the_fireplace.moreanvils.MoreAnvils;
 import the_fireplace.moreanvils.blocks.MaterialAnvil;
 
 import java.util.Map;
@@ -143,7 +142,6 @@ public class ContainerMaterialAnvil extends Container {
         for (int k = 0; k < 9; ++k) {
             this.addSlotToContainer(new Slot(playerInventory, k, 8 + k * 18, 142));
         }
-        MoreAnvils.instance.playerAnvilMap.put(player, this);
     }
 
     /**
@@ -342,7 +340,6 @@ public class ContainerMaterialAnvil extends Container {
      * Called when the container is closed.
      */
     public void onContainerClosed(EntityPlayer playerIn) {
-        MoreAnvils.instance.playerAnvilMap.remove(playerIn);
         super.onContainerClosed(playerIn);
 
         if (!this.theWorld.isRemote) {
