@@ -1,0 +1,10 @@
+{
+	"homepage": "http://mods.curse.com/mc-mods/minecraft/243578-more-anvils",
+	"promos": {
+		"1.9-latest": "!!VERSION!!",
+		"1.9-recommended": "!!VERSION!!"
+	},
+	"1.9": {
+		"!!VERSION!!": "Changelog at http://mods.curse.com/mc-mods/minecraft/243578-more-anvils#t1:changes"
+	}
+}

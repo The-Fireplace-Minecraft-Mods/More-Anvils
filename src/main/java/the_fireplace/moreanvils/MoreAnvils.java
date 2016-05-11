@@ -27,9 +27,6 @@ import the_fireplace.moreanvils.network.proxy.Common;
  */
 @Mod(modid = MoreAnvils.MODID, name = MoreAnvils.MODNAME)
 public class MoreAnvils {
-    @Mod.Instance(MoreAnvils.MODID)
-    public static MoreAnvils instance;
-
     public static final String MODID = "moreanvils";
     public static final String MODNAME = "More Anvils";
     public static String VERSION;

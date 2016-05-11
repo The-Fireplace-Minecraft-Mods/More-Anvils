@@ -25,7 +25,7 @@ curseforge {
   project {
     id = '243578'
     changelog = file('changelog.txt')
-    releaseType = 'release'
+    releaseType = 'alpha'
 	addGameVersion '1.9'
 	addGameVersion 'Java 7'
 	addGameVersion 'Java 8'
