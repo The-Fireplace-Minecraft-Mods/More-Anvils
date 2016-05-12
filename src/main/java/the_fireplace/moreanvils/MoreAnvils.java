@@ -25,7 +25,7 @@ import the_fireplace.moreanvils.network.proxy.Common;
 /**
  * @author The_Fireplace
  */
-@Mod(modid = MoreAnvils.MODID, name = MoreAnvils.MODNAME)
+@Mod(modid = MoreAnvils.MODID, name = MoreAnvils.MODNAME, updateJSON = "http://caterpillar.bitnamiapp.com/jsons/moreanvils.json")
 public class MoreAnvils {
     public static final String MODID = "moreanvils";
     public static final String MODNAME = "More Anvils";
