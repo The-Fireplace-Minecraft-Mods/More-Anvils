@@ -148,8 +148,10 @@ public class VersionChecker {
 
     @EventHandler
     public void serverStarted(FMLServerStartedEvent event) {
-        if (event.getSide().isServer())
-            tryNotifyServer();
+        if (hostFailed()) {
+            if (event.getSide().isServer())
+                tryNotifyServer();
+        }
     }
 
     @SideOnly(Side.CLIENT)
