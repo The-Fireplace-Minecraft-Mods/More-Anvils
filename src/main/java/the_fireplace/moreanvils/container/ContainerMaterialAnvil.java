@@ -118,13 +118,13 @@ public class ContainerMaterialAnvil extends Container {
 
                     if (l > 2) {
                         worldIn.setBlockToAir(blockPosIn);
-                        worldIn.playAuxSFX(1029, blockPosIn, 0);
+                        worldIn.playEvent(1029, blockPosIn, 0);
                     } else {
                         worldIn.setBlockState(blockPosIn, iblockstate.withProperty(MaterialAnvil.DAMAGE, l), 2);
-                        worldIn.playAuxSFX(1030, blockPosIn, 0);
+                        worldIn.playEvent(1030, blockPosIn, 0);
                     }
                 } else if (!worldIn.isRemote) {
-                    worldIn.playAuxSFX(1030, blockPosIn, 0);
+                    worldIn.playEvent(1030, blockPosIn, 0);
                 }
             }
 
@@ -147,6 +147,7 @@ public class ContainerMaterialAnvil extends Container {
     /**
      * Callback for when the crafting matrix is changed.
      */
+    @Override
     public void onCraftMatrixChanged(IInventory inventoryIn) {
         super.onCraftMatrixChanged(inventoryIn);
 
@@ -178,7 +179,7 @@ public class ContainerMaterialAnvil extends Container {
 
             if (itemstack2 != null) {
                 if (!onAnvilChange(this, itemstack, itemstack2, outputSlot, repairedItemName, j)) return;
-                flag = itemstack2.getItem() == Items.enchanted_book && !Items.enchanted_book.getEnchantments(itemstack2).hasNoTags();
+                flag = itemstack2.getItem() == Items.ENCHANTED_BOOK && !Items.ENCHANTED_BOOK.getEnchantments(itemstack2).hasNoTags();
 
                 if (itemstack1.isItemStackDamageable() && itemstack1.getItem().getIsRepairable(itemstack, itemstack2)) {
                     int j2 = Math.min(itemstack1.getItemDamage(), itemstack1.getMaxDamage() / 4);
@@ -232,7 +233,7 @@ public class ContainerMaterialAnvil extends Container {
                             j3 = i3 == j3 ? j3 + 1 : Math.max(j3, i3);
                             boolean flag1 = enchantment1.canApply(itemstack);
 
-                            if (this.thePlayer.capabilities.isCreativeMode || itemstack.getItem() == Items.enchanted_book) {
+                            if (this.thePlayer.capabilities.isCreativeMode || itemstack.getItem() == Items.ENCHANTED_BOOK) {
                                 flag1 = true;
                             }
 
@@ -251,7 +252,7 @@ public class ContainerMaterialAnvil extends Container {
                                 map.put(enchantment1, j3);
                                 int k3 = 0;
 
-                                switch (enchantment1.getWeight()) {
+                                switch (enchantment1.getRarity()) {
                                     case COMMON:
                                         k3 = 1;
                                         break;
@@ -324,11 +325,13 @@ public class ContainerMaterialAnvil extends Container {
         }
     }
 
-    public void onCraftGuiOpened(ICrafting listener) {
-        super.onCraftGuiOpened(listener);
+    @Override
+    public void addListener(IContainerListener listener) {
+        super.addListener(listener);
         listener.sendProgressBarUpdate(this, 0, this.maximumCost);
     }
 
+    @Override
     @SideOnly(Side.CLIENT)
     public void updateProgressBar(int id, int data) {
         if (id == 0) {
@@ -339,6 +342,7 @@ public class ContainerMaterialAnvil extends Container {
     /**
      * Called when the container is closed.
      */
+    @Override
     public void onContainerClosed(EntityPlayer playerIn) {
         super.onContainerClosed(playerIn);
 
@@ -347,12 +351,13 @@ public class ContainerMaterialAnvil extends Container {
                 ItemStack itemstack = this.inputSlots.removeStackFromSlot(i);
 
                 if (itemstack != null) {
-                    playerIn.dropPlayerItemWithRandomChoice(itemstack, false);
+                    playerIn.dropItem(itemstack, false);
                 }
             }
         }
     }
 
+    @Override
     public boolean canInteractWith(EntityPlayer playerIn) {
         return this.theWorld.getBlockState(this.selfPosition).getBlock() instanceof MaterialAnvil && playerIn.getDistanceSq((double) this.selfPosition.getX() + 0.5D, (double) this.selfPosition.getY() + 0.5D, (double) this.selfPosition.getZ() + 0.5D) <= 64.0D;
     }
@@ -360,6 +365,7 @@ public class ContainerMaterialAnvil extends Container {
     /**
      * Take a stack from the specified inventory slot.
      */
+    @Override
     public ItemStack transferStackInSlot(EntityPlayer playerIn, int index) {
         ItemStack itemstack = null;
         Slot slot = this.inventorySlots.get(index);

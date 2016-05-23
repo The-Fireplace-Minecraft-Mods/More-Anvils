@@ -48,7 +48,7 @@ public class VersionChecker {
     private static String HostVERSION;
     static final String MODID = HostMODID + "vc";
     static final String MODNAME = HostMODNAME + " Version Checker";
-    static final String VERSION = "3.0";
+    static final String VERSION = "3.2";
     private String curseCode, latest = "0.0.0.0";
 
     private static Configuration config;
@@ -99,7 +99,7 @@ public class VersionChecker {
             player.addChatMessage(new TextComponentString("A new version of " + HostMODNAME + " is available!"));
             player.addChatMessage(new TextComponentString("==========" + latest + "=========="));
             player.addChatMessage(new TextComponentString("Get it at the following link:"));
-            player.addChatMessage(new TextComponentString(getDownloadUrl()).setChatStyle(new Style().setItalic(true).setUnderlined(true).setColor(TextFormatting.BLUE).setChatClickEvent(new ClickEvent(ClickEvent.Action.OPEN_URL, getDownloadUrl()))));
+            player.addChatMessage(new TextComponentString(getDownloadUrl()).setStyle(new Style().setItalic(true).setUnderlined(true).setColor(TextFormatting.BLUE).setClickEvent(new ClickEvent(ClickEvent.Action.OPEN_URL, getDownloadUrl()))));
             setChecked();
         }
     }
@@ -252,8 +252,8 @@ public class VersionChecker {
             if (file.exists()) {
                 BufferedReader in = new BufferedReader(new FileReader(file));
                 String contents = in.readLine();
-                int jarindex = contents.indexOf(HostMODNAME.replace(" ", "") + "-");
-                int versionindex = jarindex + HostMODNAME.replace(" ", "").length() + 1;
+                int jarindex = contents.indexOf(HostMODNAME.replace(" ", "").replace("\\'", "") + "-");
+                int versionindex = jarindex + HostMODNAME.replace(" ", "").replace("\\'", "").length() + 1;
                 int dotjarindex = contents.indexOf(".jar", versionindex);
                 String versionnumber = contents.substring(versionindex, dotjarindex);
                 in.close();

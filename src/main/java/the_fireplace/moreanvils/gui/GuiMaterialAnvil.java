@@ -7,7 +7,7 @@ import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Container;
-import net.minecraft.inventory.ICrafting;
+import net.minecraft.inventory.IContainerListener;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemArmor;
@@ -26,7 +26,7 @@ import java.io.IOException;
 import java.util.List;
 
 @SideOnly(Side.CLIENT)
-public class GuiMaterialAnvil extends GuiContainer implements ICrafting {
+public class GuiMaterialAnvil extends GuiContainer implements IContainerListener {
     private static final ResourceLocation anvilResource = new ResourceLocation("textures/gui/container/anvil.png");
     private static final ResourceLocation goldHammerResource = new ResourceLocation("moreanvils:textures/gui/gold_hammer.png");
     private static final ResourceLocation diamondHammerResource = new ResourceLocation("moreanvils:textures/gui/diamond_hammer.png");
@@ -54,8 +54,8 @@ public class GuiMaterialAnvil extends GuiContainer implements ICrafting {
         this.nameField.setDisabledTextColour(-1);
         this.nameField.setEnableBackgroundDrawing(false);
         this.nameField.setMaxStringLength(30);
-        this.inventorySlots.removeCraftingFromCrafters(this);
-        this.inventorySlots.onCraftGuiOpened(this);
+        this.inventorySlots.removeListener(this);
+        this.inventorySlots.addListener(this);
     }
 
     /**
@@ -64,7 +64,7 @@ public class GuiMaterialAnvil extends GuiContainer implements ICrafting {
     public void onGuiClosed() {
         super.onGuiClosed();
         Keyboard.enableRepeatEvents(false);
-        this.inventorySlots.removeCraftingFromCrafters(this);
+        this.inventorySlots.removeListener(this);
     }
 
     /**

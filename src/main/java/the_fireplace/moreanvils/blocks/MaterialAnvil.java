@@ -45,12 +45,12 @@ public abstract class MaterialAnvil extends BlockFalling {
     }
 
     protected MaterialAnvil(ItemArmor.ArmorMaterial mat) {
-        super(Material.anvil);
+        super(Material.ANVIL);
         this.setDefaultState(this.blockState.getBaseState().withProperty(FACING, EnumFacing.NORTH).withProperty(DAMAGE, 0));
         this.setLightOpacity(0);
         this.material = mat;
         setHardness(5.0F);
-        setStepSound(SoundType.ANVIL);
+        setSoundType(SoundType.ANVIL);
         setResistance(2000.0F);
     }
 
@@ -126,7 +126,7 @@ public abstract class MaterialAnvil extends BlockFalling {
     }
 
     public void onEndFalling(World worldIn, BlockPos pos) {
-        worldIn.playAuxSFX(1031, pos, 0);
+        worldIn.playEvent(1031, pos, 0);
     }
 
     @SideOnly(Side.CLIENT)
