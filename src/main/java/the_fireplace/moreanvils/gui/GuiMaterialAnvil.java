@@ -32,9 +32,9 @@ public class GuiMaterialAnvil extends GuiContainer implements IContainerListener
     private static final ResourceLocation diamondHammerResource = new ResourceLocation("moreanvils:textures/gui/diamond_hammer.png");
     private ContainerMaterialAnvil anvil;
     private GuiTextField nameField;
-    protected InventoryPlayer playerInventory;
-    protected World anvWorld;
-    protected MaterialAnvil matAnv;
+    public InventoryPlayer playerInventory;
+    public World anvWorld;
+    public MaterialAnvil matAnv;
 
     public GuiMaterialAnvil(InventoryPlayer inventoryIn, World worldIn, MaterialAnvil anvil) {
         super(new ContainerMaterialAnvil(inventoryIn, worldIn, Minecraft.getMinecraft().thePlayer, anvil));
