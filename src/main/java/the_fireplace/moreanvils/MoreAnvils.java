@@ -1,12 +1,15 @@
 package the_fireplace.moreanvils;
 
+import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
 import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.block.model.ModelBakery;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
-import net.minecraft.item.ItemAnvilBlock;
+import net.minecraft.item.ItemArmor;
+import net.minecraftforge.fml.common.Loader;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.SidedProxy;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
@@ -16,11 +19,16 @@ import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import net.minecraftforge.oredict.ShapedOreRecipe;
-import the_fireplace.moreanvils.blocks.BlockDiamondAnvil;
-import the_fireplace.moreanvils.blocks.BlockGoldAnvil;
+import the_fireplace.moreanvils.blocks.MaterialAnvil;
+import the_fireplace.moreanvils.compat.BaseMetalsCompat;
+import the_fireplace.moreanvils.compat.IModCompat;
 import the_fireplace.moreanvils.gui.MoreAnvilsGuiHandler;
+import the_fireplace.moreanvils.item.ItemMaterialAnvil;
 import the_fireplace.moreanvils.network.PacketDispatcher;
 import the_fireplace.moreanvils.network.proxy.Common;
+
+import java.util.LinkedHashMap;
+import java.util.LinkedList;
 
 /**
  * @author The_Fireplace
@@ -35,8 +43,13 @@ public class MoreAnvils {
 
     public static final CreativeTabs TabMoreAnvils = new TabMoreAnvils("more_anvils");
 
-    public static final Block diamond_anvil = new BlockDiamondAnvil();
-    public static final Block gold_anvil = new BlockGoldAnvil();
+    public static final LinkedHashMap<String, MaterialAnvil> anvils = Maps.newLinkedHashMap();
+    public static final LinkedList<IModCompat> compats = Lists.newLinkedList();
+
+    public void addCompats(){
+        if(Loader.isModLoaded("basemetals"))
+            compats.add(new BaseMetalsCompat());
+    }
 
     @Mod.EventHandler
     public void preInit(FMLPreInitializationEvent event) {
@@ -44,11 +57,31 @@ public class MoreAnvils {
 
         NetworkRegistry.INSTANCE.registerGuiHandler(this, new MoreAnvilsGuiHandler());
 
-        GameRegistry.registerBlock(diamond_anvil, ItemAnvilBlock.class, "diamond_anvil");
-        GameRegistry.registerBlock(gold_anvil, ItemAnvilBlock.class, "gold_anvil");
+        addCompats();
 
-        GameRegistry.addRecipe(new ShapedOreRecipe(diamond_anvil, "bbb", " i ", "iii", 'b', "blockDiamond", 'i', "gemDiamond"));
-        GameRegistry.addRecipe(new ShapedOreRecipe(gold_anvil, "bbb", " i ", "iii", 'b', "blockGold", 'i', "ingotGold"));
+        addGenericAnvil("Diamond", ItemArmor.ArmorMaterial.DIAMOND, "gem");
+        addGenericAnvil("Gold", ItemArmor.ArmorMaterial.GOLD);
+
+        compats.forEach(compat -> compat.preInit());
+
+        for(String key:anvils.keySet()){
+            GameRegistry.register(anvils.get(key));
+            GameRegistry.register(new ItemMaterialAnvil(anvils.get(key)).setRegistryName(anvils.get(key).getRegistryName()));
+
+            GameRegistry.addRecipe(new ShapedOreRecipe(anvils.get(key), "bbb", " i ", "iii", 'b', "block"+key, 'i', anvils.get(key).getPrefix()+key));
+        }
+    }
+
+    public static void addGenericAnvil(String name, ItemArmor.ArmorMaterial material){
+        addGenericAnvil(name, material, "ingot");
+    }
+
+    public static void addGenericAnvil(String name, ItemArmor.ArmorMaterial material, String prefix){
+        putAnvil(name, new MaterialAnvil(material, name, prefix));
+    }
+
+    public static void putAnvil(String name, MaterialAnvil anvil){
+        anvils.putIfAbsent(name, anvil);
     }
 
     @Mod.EventHandler
@@ -59,8 +92,9 @@ public class MoreAnvils {
 
     @SideOnly(Side.CLIENT)
     public void registerItemRenders() {
-        registerAnvilRenderer(diamond_anvil);
-        registerAnvilRenderer(gold_anvil);
+        for(String key:anvils.keySet()){
+            registerAnvilRenderer(anvils.get(key));
+        }
     }
 
     @SideOnly(Side.CLIENT)

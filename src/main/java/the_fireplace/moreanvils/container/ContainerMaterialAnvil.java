@@ -51,10 +51,13 @@ public class ContainerMaterialAnvil extends Container {
      */
     private final EntityPlayer thePlayer;
 
+    private String name = "";
+
     @SideOnly(Side.CLIENT)
     public ContainerMaterialAnvil(InventoryPlayer playerInventory, World worldIn, EntityPlayer player, MaterialAnvil block)
     {
         this(playerInventory, worldIn, BlockPos.ORIGIN, player, block.getArmorMaterial());
+        this.name=block.getName();
     }
 
     public ContainerMaterialAnvil(InventoryPlayer playerInventory, final World worldIn, final BlockPos blockPosIn, EntityPlayer player, ItemArmor.ArmorMaterial mat) {
@@ -142,6 +145,10 @@ public class ContainerMaterialAnvil extends Container {
         for (int k = 0; k < 9; ++k) {
             this.addSlotToContainer(new Slot(playerInventory, k, 8 + k * 18, 142));
         }
+    }
+
+    public String getName(){
+        return name;
     }
 
     /**

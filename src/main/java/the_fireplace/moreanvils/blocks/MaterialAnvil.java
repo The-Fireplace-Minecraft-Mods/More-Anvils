@@ -32,19 +32,21 @@ import the_fireplace.moreanvils.MoreAnvils;
 
 import java.util.List;
 
-public abstract class MaterialAnvil extends BlockFalling {
+public class MaterialAnvil extends BlockFalling {
     public static final PropertyDirection FACING = BlockHorizontal.FACING;
     public static final PropertyInteger DAMAGE = PropertyInteger.create("damage", 0, 2);
     protected static final AxisAlignedBB field_185760_c = new AxisAlignedBB(0.0D, 0.0D, 0.125D, 1.0D, 1.0D, 0.875D);
     protected static final AxisAlignedBB field_185761_d = new AxisAlignedBB(0.125D, 0.0D, 0.0D, 0.875D, 1.0D, 1.0D);
     protected static final Logger LOGGER = LogManager.getLogger();
     protected ItemArmor.ArmorMaterial material;
+    private String prefix;
+    private String name;
 
     public ItemArmor.ArmorMaterial getArmorMaterial() {
         return material;
     }
 
-    protected MaterialAnvil(ItemArmor.ArmorMaterial mat) {
+    public MaterialAnvil(ItemArmor.ArmorMaterial mat, String name, String prefix){
         super(Material.ANVIL);
         this.setDefaultState(this.blockState.getBaseState().withProperty(FACING, EnumFacing.NORTH).withProperty(DAMAGE, 0));
         this.setLightOpacity(0);
@@ -52,6 +54,19 @@ public abstract class MaterialAnvil extends BlockFalling {
         setHardness(5.0F);
         setSoundType(SoundType.ANVIL);
         setResistance(2000.0F);
+        setUnlocalizedName(name.toLowerCase()+"_anvil");
+        setRegistryName(name.toLowerCase()+"_anvil");
+        setCreativeTab(MoreAnvils.TabMoreAnvils);
+        this.prefix=prefix;
+        this.name=name;
+    }
+
+    public String getPrefix(){
+        return prefix;
+    }
+
+    public String getName(){
+        return name;
     }
 
     public boolean isFullCube(IBlockState state) {

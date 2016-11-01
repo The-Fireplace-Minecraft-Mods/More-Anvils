@@ -1,5 +1,6 @@
 package the_fireplace.moreanvils.gui;
 
+import com.google.common.collect.Maps;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiTextField;
 import net.minecraft.client.gui.inventory.GuiContainer;
@@ -10,7 +11,6 @@ import net.minecraft.inventory.Container;
 import net.minecraft.inventory.IContainerListener;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.Slot;
-import net.minecraft.item.ItemArmor;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
@@ -23,13 +23,13 @@ import the_fireplace.moreanvils.network.PacketDispatcher;
 import the_fireplace.moreanvils.network.UpdateRenameMessage;
 
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.List;
 
 @SideOnly(Side.CLIENT)
 public class GuiMaterialAnvil extends GuiContainer implements IContainerListener {
     private static final ResourceLocation anvilResource = new ResourceLocation("textures/gui/container/anvil.png");
-    private static final ResourceLocation goldHammerResource = new ResourceLocation("moreanvils:textures/gui/gold_hammer.png");
-    private static final ResourceLocation diamondHammerResource = new ResourceLocation("moreanvils:textures/gui/diamond_hammer.png");
+    public static HashMap<String, ResourceLocation> hammers = Maps.newHashMap();
     private ContainerMaterialAnvil anvil;
     private GuiTextField nameField;
     public InventoryPlayer playerInventory;
@@ -183,13 +183,10 @@ public class GuiMaterialAnvil extends GuiContainer implements IContainerListener
         if ((this.anvil.getSlot(0).getHasStack() || this.anvil.getSlot(1).getHasStack()) && !this.anvil.getSlot(2).getHasStack()) {
             this.drawTexturedModalRect(i + 99, j + 45, this.xSize, 0, 28, 21);
         }
-        if (this.anvil.material == ItemArmor.ArmorMaterial.DIAMOND) {
-            this.mc.getTextureManager().bindTexture(diamondHammerResource);
-            this.drawTexturedModalRect(i, j, 0, 0, this.xSize, this.ySize);
-        } else if (this.anvil.material == ItemArmor.ArmorMaterial.GOLD) {
-            this.mc.getTextureManager().bindTexture(goldHammerResource);
-            this.drawTexturedModalRect(i, j, 0, 0, this.xSize, this.ySize);
-        }
+        hammers.putIfAbsent(anvil.getName(), new ResourceLocation("moreanvils:textures/gui/"+anvil.getName().toLowerCase()+"_hammer.png"));
+
+        this.mc.getTextureManager().bindTexture(hammers.get(anvil.getName()));
+        this.drawTexturedModalRect(i, j, 0, 0, this.xSize, this.ySize);
     }
 
     /**

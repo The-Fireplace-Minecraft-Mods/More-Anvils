@@ -13,6 +13,6 @@ public class TabMoreAnvils extends CreativeTabs {
 
     @Override
     public Item getTabIconItem() {
-        return Item.getItemFromBlock(MoreAnvils.gold_anvil);
+        return Item.getItemFromBlock(MoreAnvils.anvils.get("Gold"));
     }
 }
