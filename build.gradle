@@ -61,9 +61,13 @@ minecraft {
 }
 
 dependencies {
+	compile "net.industrial-craft:industrialcraft-2:2.6.87-ex110:dev"
 }
 
 repositories {
+    maven { //IC2, Forestry
+    	url = "http://maven.ic2.player.to/"
+    }
 }
 
 processResources

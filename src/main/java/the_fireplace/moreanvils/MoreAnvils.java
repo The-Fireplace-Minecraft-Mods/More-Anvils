@@ -21,6 +21,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 import net.minecraftforge.oredict.ShapedOreRecipe;
 import the_fireplace.moreanvils.blocks.MaterialAnvil;
 import the_fireplace.moreanvils.compat.BaseMetalsCompat;
+import the_fireplace.moreanvils.compat.IC2Compat;
 import the_fireplace.moreanvils.compat.IModCompat;
 import the_fireplace.moreanvils.gui.MoreAnvilsGuiHandler;
 import the_fireplace.moreanvils.item.ItemMaterialAnvil;
@@ -33,7 +34,7 @@ import java.util.LinkedList;
 /**
  * @author The_Fireplace
  */
-@Mod(modid = MoreAnvils.MODID, name = MoreAnvils.MODNAME, updateJSON = "http://caterpillar.bitnamiapp.com/jsons/moreanvils.json", acceptedMinecraftVersions = "[1.9.4,1.10.2]")
+@Mod(modid = MoreAnvils.MODID, name = MoreAnvils.MODNAME, updateJSON = "http://thefireplace.bitnamiapp.com/jsons/moreanvils.json", acceptedMinecraftVersions = "[1.9.4,1.11)")
 public class MoreAnvils {
     public static final String MODID = "moreanvils";
     public static final String MODNAME = "More Anvils";
@@ -49,6 +50,8 @@ public class MoreAnvils {
     public void addCompats(){
         if(Loader.isModLoaded("basemetals"))
             compats.add(new BaseMetalsCompat());
+        if(Loader.isModLoaded("IC2"))
+            compats.add(new IC2Compat());
     }
 
     @Mod.EventHandler

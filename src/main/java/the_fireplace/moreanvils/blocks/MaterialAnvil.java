@@ -23,6 +23,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.TextComponentTranslation;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
+import net.minecraftforge.fml.common.Loader;
 import net.minecraftforge.fml.common.network.internal.FMLNetworkHandler;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
@@ -53,7 +54,7 @@ public class MaterialAnvil extends BlockFalling {
         this.material = mat;
         setHardness(5.0F);
         setSoundType(SoundType.ANVIL);
-        setResistance(2000.0F);
+        setResistance(Loader.isModLoaded("IC2") ? 60.0F : 2000.0F);
         setUnlocalizedName(name.toLowerCase()+"_anvil");
         setRegistryName(name.toLowerCase()+"_anvil");
         setCreativeTab(MoreAnvils.TabMoreAnvils);
