@@ -40,7 +40,7 @@ curseforge {
 
 version = "6.1.0"
 group= "the_fireplace.moreanvils"
-archivesBaseName = "MoreAnvils-Forge"
+archivesBaseName = "MoreAnvils"
 
 modsIO {
     key = project.modsioApiKey
