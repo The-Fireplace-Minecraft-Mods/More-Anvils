@@ -33,14 +33,12 @@ curseforge {
     changelog = file('changelog.txt')
     releaseType = 'release'
     addGameVersion '1.10.2'
-	addGameVersion '1.10'
-	addGameVersion '1.9.4'
 	addGameVersion 'Java 8'
     mainArtifact jar
   }
 }
 
-version = "!!VERSION!!"
+version = "6.1.0"
 group= "the_fireplace.moreanvils"
 archivesBaseName = "MoreAnvils-Forge"
 
@@ -57,7 +55,7 @@ modsIO {
 }
 
 minecraft {
-    version = "1.10.2-12.18.0.2004-1.10.0"
+    version = "1.10.2-12.18.2.2114"
     runDir = "run"
     mappings = "snapshot_20160518"
 }
