@@ -38,7 +38,7 @@ curseforge {
   }
 }
 
-version = "6.1.0"
+version = "6.1.2"
 group= "the_fireplace.moreanvils"
 archivesBaseName = "MoreAnvils"
 
@@ -62,11 +62,16 @@ minecraft {
 
 dependencies {
 	compile "net.industrial-craft:industrialcraft-2:2.6.87-ex110:dev"
+    compile name: "Railcraft", version: "10.0.0", classifier: "dev"
 }
 
 repositories {
     maven { //IC2, Forestry
     	url = "http://maven.ic2.player.to/"
+    }
+    ivy {
+        name = "Railcraft"
+        artifactPattern "http://www.railcraft.info/ivy/com.headlamp-games/Railcraft/[revision]/[module]_1.10.2-[revision]-[classifier].[ext]"
     }
 }
 
