@@ -245,7 +245,7 @@ public class ContainerMaterialAnvil extends Container {
                             }
 
                             for (Enchantment enchantment : map.keySet()) {
-                                if (enchantment != enchantment1 && !(enchantment1.canApplyTogether(enchantment) && enchantment.canApplyTogether(enchantment1))) {
+                                if (enchantment != null && enchantment != enchantment1 && !(enchantment1.canApplyTogether(enchantment) && enchantment.canApplyTogether(enchantment1))) {
                                     flag1 = false;
                                     ++i;
                                 }
