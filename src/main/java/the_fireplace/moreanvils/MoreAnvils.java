@@ -23,6 +23,7 @@ import the_fireplace.moreanvils.blocks.MaterialAnvil;
 import the_fireplace.moreanvils.compat.BaseMetalsCompat;
 import the_fireplace.moreanvils.compat.IC2Compat;
 import the_fireplace.moreanvils.compat.IModCompat;
+import the_fireplace.moreanvils.compat.RailcraftCompat;
 import the_fireplace.moreanvils.gui.MoreAnvilsGuiHandler;
 import the_fireplace.moreanvils.item.ItemMaterialAnvil;
 import the_fireplace.moreanvils.network.PacketDispatcher;
@@ -52,6 +53,8 @@ public class MoreAnvils {
             compats.add(new BaseMetalsCompat());
         if(Loader.isModLoaded("IC2"))
             compats.add(new IC2Compat());
+        if(Loader.isModLoaded("railcraft"))
+            compats.add(new RailcraftCompat());
     }
 
     @Mod.EventHandler
