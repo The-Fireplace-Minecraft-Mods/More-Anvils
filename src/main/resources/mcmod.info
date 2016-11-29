@@ -11,9 +11,6 @@
   "credits": "Authored by The_Fireplace",
   "logoFile": "logo.png",
   "screenshots": [],
-  "dependencies": [],
-  "requiredMods": [],
-  "dependants": [],
-  "useDependencyInformation": true
+  "dependencies": []
 }
 ]

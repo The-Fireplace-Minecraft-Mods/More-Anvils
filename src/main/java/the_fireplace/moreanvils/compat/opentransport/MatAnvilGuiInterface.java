@@ -19,13 +19,11 @@ import javax.annotation.Nonnull;
 public class MatAnvilGuiInterface implements IGuiInterface {
     @Override
     public Gui getGUI(EntityPlayer player, IHolderEntity holderEntity, IBlockWrapper blockWrapper) {
-        System.out.println("GUI Opening");
         return new GuiMaterialAnvil(player.inventory, player.worldObj, (MaterialAnvil)blockWrapper.getBlock());
     }
 
     @Override
     public Container getContainer(EntityPlayer player, IHolderEntity holderEntity, IBlockWrapper blockWrapper) {
-        System.out.println("Container Opening");
         return new ContainerAnvilEntity(player, holderEntity, blockWrapper);
     }
 

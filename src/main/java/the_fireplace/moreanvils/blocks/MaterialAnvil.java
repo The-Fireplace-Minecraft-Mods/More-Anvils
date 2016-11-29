@@ -107,7 +107,7 @@ public class MaterialAnvil extends BlockFalling {
         if (worldIn.isRemote)
             return true;
         if (!playerIn.isSneaking()) {
-            FMLNetworkHandler.openGui(playerIn, MoreAnvils.MODID, 0, worldIn, pos.getX(), pos.getY(), pos.getZ());
+            playerIn.openGui(MoreAnvils.MODID, 0, worldIn, pos.getX(), pos.getY(), pos.getZ());
             return true;
         }
 
