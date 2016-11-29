@@ -22,7 +22,8 @@ public class BaseMetalsCompat implements IModCompat {
         materials.remove(Materials.vanilla_wood);
         materials.remove(Materials.zinc);
         for(MetalMaterial material:Materials.getAllMetals()){
-            MoreAnvils.putAnvil(material.getCapitalizedName(), new BaseMetalAnvil(material));
+            if(!material.getName().equals("silicon"))
+                MoreAnvils.putAnvil(material.getCapitalizedName(), new BaseMetalAnvil(material));
         }
     }
 }
