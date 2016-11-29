@@ -20,11 +20,8 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import net.minecraftforge.oredict.ShapedOreRecipe;
 import the_fireplace.moreanvils.blocks.MaterialAnvil;
-import the_fireplace.moreanvils.compat.BaseMetalsCompat;
-import the_fireplace.moreanvils.compat.IC2Compat;
-import the_fireplace.moreanvils.compat.IModCompat;
-import the_fireplace.moreanvils.compat.RailcraftCompat;
-import the_fireplace.moreanvils.gui.MoreAnvilsGuiHandler;
+import the_fireplace.moreanvils.compat.*;
+import the_fireplace.moreanvils.network.MoreAnvilsGuiHandler;
 import the_fireplace.moreanvils.item.ItemMaterialAnvil;
 import the_fireplace.moreanvils.network.PacketDispatcher;
 import the_fireplace.moreanvils.network.proxy.Common;
@@ -35,7 +32,7 @@ import java.util.LinkedList;
 /**
  * @author The_Fireplace
  */
-@Mod(modid = MoreAnvils.MODID, name = MoreAnvils.MODNAME, updateJSON = "http://thefireplace.bitnamiapp.com/jsons/moreanvils.json", acceptedMinecraftVersions = "[1.9.4,1.11)")
+@Mod(modid = MoreAnvils.MODID, name = MoreAnvils.MODNAME, updateJSON = "http://thefireplace.bitnamiapp.com/jsons/moreanvils.json", acceptedMinecraftVersions = "[1.9.4,1.11)", dependencies = "before:opentransport")
 public class MoreAnvils {
     public static final String MODID = "moreanvils";
     public static final String MODNAME = "More Anvils";
@@ -55,6 +52,8 @@ public class MoreAnvils {
             compats.add(new IC2Compat());
         if(Loader.isModLoaded("railcraft"))
             compats.add(new RailcraftCompat());
+        if(Loader.isModLoaded("opentransport"))
+            compats.add(new OpenTransportCompat());
     }
 
     @Mod.EventHandler
