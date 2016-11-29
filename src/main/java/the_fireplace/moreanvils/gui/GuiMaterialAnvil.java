@@ -186,7 +186,7 @@ public class GuiMaterialAnvil extends GuiContainer implements IContainerListener
         hammers.putIfAbsent(anvil.getName(), new ResourceLocation("moreanvils:textures/gui/"+anvil.getName().toLowerCase()+"_hammer.png"));
 
         this.mc.getTextureManager().bindTexture(hammers.get(anvil.getName()));
-        this.drawTexturedModalRect(i, j, 0, 0, this.xSize, this.ySize);
+        drawModalRectWithCustomSizedTexture(i+25, j+7, 0, 0, 22, 22, 22, 22);
     }
 
     /**
