@@ -118,6 +118,7 @@ curseforge {
 			optionalLibrary 'base-metals'
 			optionalLibrary 'industrial-craft'
 			optionalLibrary 'modern-metals'
+			optionalLibrary 'opentransport'
 		}
     }
     addArtifact(sourceJar) {
