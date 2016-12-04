@@ -32,7 +32,7 @@ import java.util.LinkedList;
 /**
  * @author The_Fireplace
  */
-@Mod(modid = MoreAnvils.MODID, name = MoreAnvils.MODNAME, updateJSON = "http://thefireplace.bitnamiapp.com/jsons/moreanvils.json", acceptedMinecraftVersions = "[1.9.4,1.11)", dependencies = "before:opentransport;after:modernmetals")
+@Mod(modid = MoreAnvils.MODID, name = MoreAnvils.MODNAME, updateJSON = "http://thefireplace.bitnamiapp.com/jsons/moreanvils.json", acceptedMinecraftVersions = "[1.11,)", dependencies = "before:opentransport;after:modernmetals")
 public class MoreAnvils {
     public static final String MODID = "moreanvils";
     public static final String MODNAME = "More Anvils";
@@ -67,7 +67,7 @@ public class MoreAnvils {
         addGenericAnvil("Diamond", ItemArmor.ArmorMaterial.DIAMOND, "gem");
         addGenericAnvil("Gold", ItemArmor.ArmorMaterial.GOLD);
 
-        compats.forEach(compat -> compat.preInit());
+        compats.forEach(IModCompat::preInit);
 
         for(String key:anvils.keySet()){
             GameRegistry.register(anvils.get(key));

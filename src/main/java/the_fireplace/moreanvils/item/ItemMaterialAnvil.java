@@ -5,6 +5,8 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.text.translation.I18n;
 import the_fireplace.moreanvils.blocks.MaterialAnvil;
 
+import javax.annotation.Nonnull;
+
 public class ItemMaterialAnvil extends ItemAnvilBlock
 {
     MaterialAnvil material;
@@ -15,7 +17,8 @@ public class ItemMaterialAnvil extends ItemAnvilBlock
     }
 
     @Override
-    public String getItemStackDisplayName(ItemStack stack)
+    @Nonnull
+    public String getItemStackDisplayName(@Nonnull ItemStack stack)
     {
         switch(stack.getItemDamage()) {
             case 0:

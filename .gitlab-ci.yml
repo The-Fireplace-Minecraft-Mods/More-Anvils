@@ -2,8 +2,8 @@ variables:
   CACHE_DIR: "$CI_PROJECT_DIR/build"
   CACHE_DIR2: "$CI_PROJECT_DIR/.gradle"
   
-  ORIG_ARTIFACTS: "$CI_PROJECT_DIR/build/libs/MoreAnvils-*.jar"
-  ARTIFACTS: "$CI_PROJECT_DIR/MoreAnvils-*.jar"
+  ORIG_ARTIFACTS: "$CI_PROJECT_DIR/build/libs/MoreAnvils-1.11-*.jar"
+  ARTIFACTS: "$CI_PROJECT_DIR/MoreAnvils-1.11-*.jar"
 
 cache:
  paths:
@@ -23,6 +23,6 @@ deploy:
   - cp $ORIG_ARTIFACTS .
   when: manual
   artifacts:
-    name: "MoreAnvils-$(cat $CACHE_DIR/.version)"
+    name: "MoreAnvils-1.11-$(cat $CACHE_DIR/.version)"
     paths:
     - $ARTIFACTS

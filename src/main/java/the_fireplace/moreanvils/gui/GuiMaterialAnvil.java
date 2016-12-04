@@ -12,6 +12,7 @@ import net.minecraft.inventory.IContainerListener;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.NonNullList;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
@@ -22,9 +23,9 @@ import the_fireplace.moreanvils.container.ContainerMaterialAnvil;
 import the_fireplace.moreanvils.network.PacketDispatcher;
 import the_fireplace.moreanvils.network.UpdateRenameMessage;
 
+import javax.annotation.Nonnull;
 import java.io.IOException;
 import java.util.HashMap;
-import java.util.List;
 
 @SideOnly(Side.CLIENT)
 public class GuiMaterialAnvil extends GuiContainer implements IContainerListener {
@@ -37,7 +38,7 @@ public class GuiMaterialAnvil extends GuiContainer implements IContainerListener
     public MaterialAnvil matAnv;
 
     public GuiMaterialAnvil(InventoryPlayer inventoryIn, World worldIn, MaterialAnvil anvil) {
-        super(new ContainerMaterialAnvil(inventoryIn, worldIn, Minecraft.getMinecraft().thePlayer, anvil));
+        super(new ContainerMaterialAnvil(inventoryIn, worldIn, Minecraft.getMinecraft().player, anvil));
         this.playerInventory = inventoryIn;
         this.anvil = (ContainerMaterialAnvil) this.inventorySlots;
         this.anvWorld = worldIn;
@@ -48,6 +49,7 @@ public class GuiMaterialAnvil extends GuiContainer implements IContainerListener
      * Adds the buttons (and other controls) to the screen in question. Called when the GUI is displayed and when the
      * window resizes, the buttonList is cleared beforehand.
      */
+    @Override
     public void initGui() {
         super.initGui();
         Keyboard.enableRepeatEvents(true);
@@ -65,6 +67,7 @@ public class GuiMaterialAnvil extends GuiContainer implements IContainerListener
     /**
      * Called when the screen is unloaded. Used to disable keyboard repeat events
      */
+    @Override
     public void onGuiClosed() {
         super.onGuiClosed();
         Keyboard.enableRepeatEvents(false);
@@ -77,6 +80,7 @@ public class GuiMaterialAnvil extends GuiContainer implements IContainerListener
      * @param mouseX Mouse x coordinate
      * @param mouseY Mouse y coordinate
      */
+    @Override
     protected void drawGuiContainerForegroundLayer(int mouseX, int mouseY) {
         GlStateManager.disableLighting();
         GlStateManager.disableBlend();
@@ -87,7 +91,7 @@ public class GuiMaterialAnvil extends GuiContainer implements IContainerListener
             boolean flag = true;
             String s = I18n.format("container.repair.cost", this.anvil.maximumCost);
 
-            if (this.anvil.maximumCost >= this.anvil.maximumCap && !this.mc.thePlayer.capabilities.isCreativeMode) {
+            if (this.anvil.maximumCost >= this.anvil.maximumCap && !this.mc.player.capabilities.isCreativeMode) {
                 s = I18n.format("container.repair.expensive");
                 i = 16736352;
             } else if (!this.anvil.getSlot(2).getHasStack()) {
@@ -121,6 +125,7 @@ public class GuiMaterialAnvil extends GuiContainer implements IContainerListener
      * Fired when a key is typed (except F11 which toggles full screen). This is the equivalent of
      * KeyListener.keyTyped(KeyEvent e). Args : character (character on the key), keyCode (lwjgl Keyboard key code)
      */
+    @Override
     protected void keyTyped(char typedChar, int keyCode) throws IOException {
         if (this.nameField.textboxKeyTyped(typedChar, keyCode)) {
             this.renameItem();
@@ -145,6 +150,7 @@ public class GuiMaterialAnvil extends GuiContainer implements IContainerListener
     /**
      * Called when the mouse is clicked. Args : mouseX, mouseY, clickedButton
      */
+    @Override
     protected void mouseClicked(int mouseX, int mouseY, int mouseButton) throws IOException {
         super.mouseClicked(mouseX, mouseY, mouseButton);
         this.nameField.mouseClicked(mouseX, mouseY, mouseButton);
@@ -157,6 +163,7 @@ public class GuiMaterialAnvil extends GuiContainer implements IContainerListener
      * @param mouseY       Mouse y coordinate
      * @param partialTicks How far into the current tick (1/20th of a second) the game is
      */
+    @Override
     public void drawScreen(int mouseX, int mouseY, float partialTicks) {
         super.drawScreen(mouseX, mouseY, partialTicks);
         GlStateManager.disableLighting();
@@ -172,6 +179,7 @@ public class GuiMaterialAnvil extends GuiContainer implements IContainerListener
      * @param mouseX       Mouse x coordinate
      * @param mouseY       Mouse y coordinate
      */
+    @Override
     protected void drawGuiContainerBackgroundLayer(float partialTicks, int mouseX, int mouseY) {
         GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
         this.mc.getTextureManager().bindTexture(anvilResource);
@@ -192,7 +200,8 @@ public class GuiMaterialAnvil extends GuiContainer implements IContainerListener
     /**
      * update the crafting window inventory with the items in the list
      */
-    public void updateCraftingInventory(Container containerToSend, List<ItemStack> itemsList) {
+    @Override
+    public void updateCraftingInventory(@Nonnull Container containerToSend, @Nonnull NonNullList<ItemStack> itemsList) {
         this.sendSlotContents(containerToSend, 0, containerToSend.getSlot(0).getStack());
     }
 
@@ -200,12 +209,13 @@ public class GuiMaterialAnvil extends GuiContainer implements IContainerListener
      * Sends the contents of an inventory slot to the client-side Container. This doesn't have to match the actual
      * contents of that slot. Args: Container, slot number, slot contents
      */
-    public void sendSlotContents(Container containerToSend, int slotInd, ItemStack stack) {
+    @Override
+    public void sendSlotContents(@Nonnull Container containerToSend, int slotInd, @Nonnull ItemStack stack) {
         if (slotInd == 0) {
-            this.nameField.setText(stack == null ? "" : stack.getDisplayName());
-            this.nameField.setEnabled(stack != null);
+            this.nameField.setText(stack.isEmpty() ? "" : stack.getDisplayName());
+            this.nameField.setEnabled(!stack.isEmpty());
 
-            if (stack != null) {
+            if (!stack.isEmpty()) {
                 this.renameItem();
             }
         }
@@ -216,9 +226,11 @@ public class GuiMaterialAnvil extends GuiContainer implements IContainerListener
      * and enchanting level. Normally the first int identifies which variable to update, and the second contains the new
      * value. Both are truncated to shorts in non-local SMP.
      */
-    public void sendProgressBarUpdate(Container containerIn, int varToUpdate, int newValue) {
+    @Override
+    public void sendProgressBarUpdate(@Nonnull Container containerIn, int varToUpdate, int newValue) {
     }
 
-    public void sendAllWindowProperties(Container containerIn, IInventory inventory) {
+    @Override
+    public void sendAllWindowProperties(@Nonnull Container containerIn, @Nonnull IInventory inventory) {
     }
 }

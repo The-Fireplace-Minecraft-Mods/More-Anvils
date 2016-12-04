@@ -10,6 +10,6 @@ import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
 public class Client extends Common {
     @Override
     public EntityPlayer getPlayerEntity(MessageContext ctx){
-        return (ctx.side.isClient() ? Minecraft.getMinecraft().thePlayer : super.getPlayerEntity(ctx));
+        return (ctx.side.isClient() ? Minecraft.getMinecraft().player : super.getPlayerEntity(ctx));
     }
 }
