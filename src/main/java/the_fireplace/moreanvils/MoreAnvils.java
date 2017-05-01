@@ -9,6 +9,9 @@ import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemArmor;
+import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.common.config.Configuration;
+import net.minecraftforge.common.config.Property;
 import net.minecraftforge.fml.common.Loader;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.SidedProxy;
@@ -21,8 +24,9 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 import net.minecraftforge.oredict.ShapedOreRecipe;
 import the_fireplace.moreanvils.blocks.MaterialAnvil;
 import the_fireplace.moreanvils.compat.*;
-import the_fireplace.moreanvils.network.MoreAnvilsGuiHandler;
+import the_fireplace.moreanvils.config.ConfigValues;
 import the_fireplace.moreanvils.item.ItemMaterialAnvil;
+import the_fireplace.moreanvils.network.MoreAnvilsGuiHandler;
 import the_fireplace.moreanvils.network.PacketDispatcher;
 import the_fireplace.moreanvils.network.proxy.Common;
 
@@ -36,6 +40,9 @@ import java.util.LinkedList;
 public class MoreAnvils {
     public static final String MODID = "moreanvils";
     public static final String MODNAME = "More Anvils";
+
+    public static Configuration config;
+    public static Property DISABLEPWP_PROPERTY;
 
     @SidedProxy(clientSide = "the_fireplace.moreanvils.network.proxy.Client", serverSide = "the_fireplace.moreanvils.network.proxy.Common")
     public static Common proxy;
@@ -56,12 +63,22 @@ public class MoreAnvils {
             compats.add(new OpenTransportCompat());
     }
 
+    public static void syncConfig() {
+        ConfigValues.DISABLEPWP = DISABLEPWP_PROPERTY.getBoolean();
+        if (config.hasChanged())
+            config.save();
+    }
+
     @Mod.EventHandler
     public void preInit(FMLPreInitializationEvent event) {
         PacketDispatcher.registerPackets();
 
         NetworkRegistry.INSTANCE.registerGuiHandler(this, new MoreAnvilsGuiHandler());
 
+        config = new Configuration(event.getSuggestedConfigurationFile());
+        config.load();
+        DISABLEPWP_PROPERTY = config.get(Configuration.CATEGORY_GENERAL, ConfigValues.DISABLEPWP_NAME, ConfigValues.DISABLEPWP_DEFAULT, proxy.translateToLocal(ConfigValues.DISABLEPWP_NAME + ".tooltip"));
+        syncConfig();
         addCompats();
 
         addGenericAnvil("Diamond", ItemArmor.ArmorMaterial.DIAMOND, "gem");
@@ -75,6 +92,8 @@ public class MoreAnvils {
 
             GameRegistry.addRecipe(new ShapedOreRecipe(anvils.get(key), "bbb", " i ", "iii", 'b', "block"+key, 'i', anvils.get(key).getPrefix()+key));
         }
+
+        MinecraftForge.EVENT_BUS.register(new CommonEvents());
     }
 
     public static void addGenericAnvil(String name, ItemArmor.ArmorMaterial material){
@@ -97,9 +116,8 @@ public class MoreAnvils {
 
     @SideOnly(Side.CLIENT)
     public void registerItemRenders() {
-        for(String key:anvils.keySet()){
+        for(String key:anvils.keySet())
             registerAnvilRenderer(anvils.get(key));
-        }
     }
 
     @SideOnly(Side.CLIENT)

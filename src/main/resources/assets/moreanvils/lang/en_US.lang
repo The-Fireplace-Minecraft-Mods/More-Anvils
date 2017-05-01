@@ -43,3 +43,5 @@ moreanvils.anvil=%s Anvil
 moreanvils.anvil.slightly_damaged=Slightly Damaged %s Anvil
 moreanvils.anvil.very_damaged=Very Damaged %s Anvil
 itemGroup.more_anvils=More Anvils
+cfg.disable_pwp=Disable Prior Work Penalty
+cfg.disable_pwp.tooltip=Disables the extra cost for repairing an item multiple times

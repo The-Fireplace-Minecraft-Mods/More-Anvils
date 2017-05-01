@@ -28,7 +28,7 @@ allprojects {
     targetCompatibility = 1.8
 }
 
-version = "7.0.0"
+version = "7.1.0"
 group= "the_fireplace.moreanvils"
 archivesBaseName = "MoreAnvils-1.11"
 

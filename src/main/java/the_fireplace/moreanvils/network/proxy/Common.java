@@ -10,4 +10,7 @@ public class Common {
     public EntityPlayer getPlayerEntity(MessageContext ctx) {
         return ctx.getServerHandler().playerEntity;
     }
+    public String translateToLocal(String s, Object... args){
+        return s;
+    }
 }
