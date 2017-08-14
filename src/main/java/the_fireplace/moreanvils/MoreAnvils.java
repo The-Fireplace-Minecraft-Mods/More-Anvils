@@ -32,7 +32,7 @@ import java.util.LinkedList;
 /**
  * @author The_Fireplace
  */
-@Mod(modid = MoreAnvils.MODID, name = MoreAnvils.MODNAME, updateJSON = "http://thefireplace.bitnamiapp.com/jsons/moreanvils.json", acceptedMinecraftVersions = "[1.11,1.12)", dependencies = "before:opentransport;after:basemetals;after:modernmetals")
+@Mod(modid = MoreAnvils.MODID, name = MoreAnvils.MODNAME, updateJSON = "https://bitbucket.org/The_Fireplace/minecraft-mod-updates/raw/master/moreanvils.json", acceptedMinecraftVersions = "[1.11,1.12)", dependencies = "before:opentransport;after:basemetals;after:modernmetals")
 public class MoreAnvils {
     public static final String MODID = "moreanvils";
     public static final String MODNAME = "More Anvils";
