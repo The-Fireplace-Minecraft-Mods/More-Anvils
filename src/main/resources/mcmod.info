@@ -4,7 +4,7 @@
   "name": "More Anvils",
   "description": "Adds more anvils",
   "version": "${version}",
-  "mcversion": "1.11",
+  "mcversion": "",
   "url": "http://mods.curse.com/mc-mods/minecraft/243578-more-anvils",
   "updateUrl": "http://mods.curse.com/mc-mods/minecraft/243578-more-anvils",
   "authorList": ["The_Fireplace"],

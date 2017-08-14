@@ -32,7 +32,7 @@ import java.util.LinkedList;
 /**
  * @author The_Fireplace
  */
-@Mod(modid = MoreAnvils.MODID, name = MoreAnvils.MODNAME, updateJSON = "http://thefireplace.bitnamiapp.com/jsons/moreanvils.json", acceptedMinecraftVersions = "[1.11,)", dependencies = "before:opentransport;after:modernmetals")
+@Mod(modid = MoreAnvils.MODID, name = MoreAnvils.MODNAME, updateJSON = "http://thefireplace.bitnamiapp.com/jsons/moreanvils.json", acceptedMinecraftVersions = "[1.11,1.12)", dependencies = "before:opentransport;after:basemetals;after:modernmetals")
 public class MoreAnvils {
     public static final String MODID = "moreanvils";
     public static final String MODNAME = "More Anvils";
@@ -48,7 +48,7 @@ public class MoreAnvils {
     public void addCompats(){
         if(Loader.isModLoaded("basemetals"))
             compats.add(new BaseMetalsCompat());
-        if(Loader.isModLoaded("IC2"))
+        if(Loader.isModLoaded("ic2"))
             compats.add(new IC2Compat());
         if(Loader.isModLoaded("railcraft"))
             compats.add(new RailcraftCompat());
@@ -97,9 +97,8 @@ public class MoreAnvils {
 
     @SideOnly(Side.CLIENT)
     public void registerItemRenders() {
-        for(String key:anvils.keySet()){
+        for(String key:anvils.keySet())
             registerAnvilRenderer(anvils.get(key));
-        }
     }
 
     @SideOnly(Side.CLIENT)

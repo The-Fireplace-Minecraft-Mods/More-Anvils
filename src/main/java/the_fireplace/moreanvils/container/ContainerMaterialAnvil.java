@@ -242,7 +242,7 @@ public class ContainerMaterialAnvil extends Container {
 
                     for (Enchantment enchantment1 : map1.keySet()) {
                         if (enchantment1 != null) {
-                            int i3 = map.containsKey(enchantment1) ? map.get(enchantment1) : 0;
+                            int i3 = map.getOrDefault(enchantment1, 0);
                             int j3 = map1.get(enchantment1);
                             j3 = i3 == j3 ? j3 + 1 : Math.max(j3, i3);
                             boolean flag1 = enchantment1.canApply(itemstack);
@@ -252,7 +252,7 @@ public class ContainerMaterialAnvil extends Container {
                             }
 
                             for (Enchantment enchantment : map.keySet()) {
-                                if (enchantment != null && enchantment != enchantment1 && !(enchantment1.canApplyTogether(enchantment) && enchantment.canApplyTogether(enchantment1))) {
+                                if (enchantment != null && enchantment != enchantment1 && !enchantment.func_191560_c(enchantment1)) {//func_191560_c checks if ench can apply with ench1 and vice versa
                                     flag1 = false;
                                     ++i;
                                 }
@@ -342,7 +342,7 @@ public class ContainerMaterialAnvil extends Container {
     @Override
     public void addListener(IContainerListener listener) {
         super.addListener(listener);
-        listener.sendProgressBarUpdate(this, 0, this.maximumCost);
+        listener.sendWindowProperty(this, 0, this.maximumCost);
     }
 
     @Override

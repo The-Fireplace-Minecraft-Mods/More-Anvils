@@ -1,1 +1,2 @@
-Updated to 1.11
+Updated to 1.11.2
+Added support for the latest Base Metals

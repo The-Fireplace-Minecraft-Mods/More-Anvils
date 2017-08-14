@@ -37,9 +37,9 @@ public class UpdateRenameMessage implements IMessage {
 
         @Override
         public IMessage handleServerMessage(EntityPlayer player, final UpdateRenameMessage message, final MessageContext ctx) {
-            IThreadListener mainThread = (WorldServer) ctx.getServerHandler().playerEntity.world;
+            IThreadListener mainThread = (WorldServer) ctx.getServerHandler().player.world;
             mainThread.addScheduledTask(() -> {
-                ContainerMaterialAnvil anvil = (ContainerMaterialAnvil) ctx.getServerHandler().playerEntity.openContainer;
+                ContainerMaterialAnvil anvil = (ContainerMaterialAnvil) ctx.getServerHandler().player.openContainer;
                 anvil.updateItemName(message.name);
             });
             return null;

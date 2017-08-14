@@ -1,7 +1,10 @@
 package the_fireplace.moreanvils.compat;
 
-import cyano.basemetals.init.Materials;
-import cyano.basemetals.material.MetalMaterial;
+import com.google.common.collect.Lists;
+import com.mcmoddev.basemetals.init.Materials;
+import com.mcmoddev.basemetals.util.Config;
+import com.mcmoddev.lib.data.Names;
+import com.mcmoddev.lib.material.MMDMaterial;
 import the_fireplace.moreanvils.MoreAnvils;
 import the_fireplace.moreanvils.blocks.BaseMetalAnvil;
 
@@ -13,16 +16,14 @@ import java.util.Collection;
 public class BaseMetalsCompat implements IModCompat {
     @Override
     public void preInit() {
+        Config.init();
         Materials.init();
-        Collection<MetalMaterial> materials = Materials.getAllMetals();
-        materials.remove(Materials.vanilla_diamond);
-        materials.remove(Materials.vanilla_gold);
-        materials.remove(Materials.vanilla_iron);
-        materials.remove(Materials.vanilla_stone);
-        materials.remove(Materials.vanilla_wood);
-        materials.remove(Materials.zinc);
-        for(MetalMaterial material:Materials.getAllMetals()){
-            if(!material.getName().equals("silicon"))
+        Collection<MMDMaterial> materials = Lists.newArrayList(Materials.getAllMaterials());
+	    materials.remove(Materials.getMaterialByName("gold"));
+        materials.remove(Materials.getMaterialByName("iron"));
+        materials.remove(Materials.getMaterialByName("zinc"));
+        for(MMDMaterial material:materials){
+            if(material.getType() == MMDMaterial.MaterialType.METAL && material.hasBlock(Names.BLOCK) && !material.hasBlock(Names.ANVIL))
                 MoreAnvils.putAnvil(material.getCapitalizedName(), new BaseMetalAnvil(material));
         }
     }
