@@ -13,6 +13,7 @@ import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemArmor;
+import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.IRecipe;
 import net.minecraft.util.ResourceLocation;
@@ -24,10 +25,10 @@ import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.network.NetworkRegistry;
-import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import net.minecraftforge.oredict.ShapedOreRecipe;
+import net.minecraftforge.registries.IForgeRegistry;
 import the_fireplace.moreanvils.blocks.MaterialAnvil;
 import the_fireplace.moreanvils.compat.BaseMetalsCompat;
 import the_fireplace.moreanvils.compat.IC2Compat;
@@ -42,7 +43,7 @@ import the_fireplace.moreanvils.network.proxy.Common;
 /**
  * @author The_Fireplace
  */
-@Mod(modid = MoreAnvils.MODID, name = MoreAnvils.MODNAME, updateJSON = "https://bitbucket.org/The_Fireplace/minecraft-mod-updates/raw/master/moreanvils.json", acceptedMinecraftVersions = "[1.11,1.12)", dependencies = "before:opentransport;after:basemetals;after:modernmetals")
+@Mod(modid = MoreAnvils.MODID, name = MoreAnvils.MODNAME, updateJSON = "https://bitbucket.org/The_Fireplace/minecraft-mod-updates/raw/master/moreanvils.json", acceptedMinecraftVersions = "[1.12, 1.12.1, 1.12.2)", dependencies = "before:opentransport;after:basemetals;after:modernmetals")
 public class MoreAnvils {
     public static final String MODID = "moreanvils";
     public static final String MODNAME = "More Anvils";
@@ -78,16 +79,43 @@ public class MoreAnvils {
         addGenericAnvil("Gold", ItemArmor.ArmorMaterial.GOLD);
 
         compats.forEach(IModCompat::preInit);
-
-        for(String key:anvils.keySet()){
-            GameRegistry.register(anvils.get(key));
-            GameRegistry.register(new ItemMaterialAnvil(anvils.get(key)).setRegistryName(anvils.get(key).getRegistryName()));
-        }
     }
     
+	private static IForgeRegistry<Item> itemRegistry = null;
+	private static IForgeRegistry<Block> blockRegistry = null;
+    
+	public static void registerItemForBlock(Block block) {
+		itemRegistry.register(new ItemBlock(block).setRegistryName(block.getRegistryName()));
+	}
+	
+	public static void registerBlock(Block block) {
+		blockRegistry.register(block.setRegistryName(block.getUnlocalizedName().substring(5)));
+	}
+    
+	
+	@SubscribeEvent
+	public static void itemRegistry(RegistryEvent.Register<Item> event) {
+		itemRegistry = event.getRegistry();
+		
+		for(String key:anvils.keySet()) {
+			itemRegistry.register(new ItemMaterialAnvil(anvils.get(key)).setRegistryName(anvils.get(key).getRegistryName()));
+		}
+	}
+	
+	@SubscribeEvent
+	public static void blockRegistry(RegistryEvent.Register<Block> event) {
+		blockRegistry = event.getRegistry();
+		
+		for(String key:anvils.keySet()) {
+			blockRegistry.register(anvils.get(key));
+		 }
+	}
+	
     @SubscribeEvent
     public static void registerRecipes(RegistryEvent.Register<IRecipe> event) {
-    	event.getRegistry().register(new ShapedOreRecipe(new ResourceLocation("moreanvils:" + key), new ResourceLocation("anvils"), new ItemStack(anvils.get(key)), "bbb", " i ", "iii", 'b', "block"+key, 'i', anvils.get(key).getPrefix()+key));
+    	for(String key:anvils.keySet()) {
+    		event.getRegistry().register(new ShapedOreRecipe(new ResourceLocation("anvils"), new ItemStack(anvils.get(key)), "bbb", " i ", "iii", 'b', "block"+key, 'i', anvils.get(key).getPrefix()+key));
+    	}
     }
 
     public static void addGenericAnvil(String name, ItemArmor.ArmorMaterial material){

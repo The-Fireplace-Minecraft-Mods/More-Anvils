@@ -193,7 +193,7 @@ public class ContainerMaterialAnvil extends Container {
 
             if (!itemstack2.isEmpty()) {
                 if (!onAnvilChange(this, itemstack, itemstack2, outputSlot, repairedItemName, j)) return;
-                flag = itemstack2.getItem() == Items.ENCHANTED_BOOK && !Items.ENCHANTED_BOOK.getEnchantments(itemstack2).hasNoTags();
+                flag = itemstack2.getItem() == Items.ENCHANTED_BOOK && !EnchantmentHelper.getEnchantments(itemstack2).isEmpty();
 
                 if (itemstack1.isItemStackDamageable() && itemstack1.getItem().getIsRepairable(itemstack, itemstack2)) {
                     int j2 = Math.min(itemstack1.getItemDamage(), itemstack1.getMaxDamage() / 4);
@@ -252,7 +252,8 @@ public class ContainerMaterialAnvil extends Container {
                             }
 
                             for (Enchantment enchantment : map.keySet()) {
-                                if (enchantment != null && enchantment != enchantment1 && !enchantment.canApplyAtEnchantingTable(enchantment1)) {//func_191560_c checks if ench can apply with ench1 and vice versa
+                            	//TODO isCompatibleWith potential issue
+                                if (enchantment != null && enchantment != enchantment1 && !enchantment.isCompatibleWith(enchantment1)) {//func_191560_c checks if ench can apply with ench1 and vice versa
                                     flag1 = false;
                                     ++i;
                                 }
