@@ -130,16 +130,16 @@ public class MaterialAnvil extends BlockFalling {
         EnumFacing enumfacing = state.getValue(FACING);
         return enumfacing.getAxis() == EnumFacing.Axis.X ? field_185760_c : field_185761_d;
     }
-
+    
     /**
      * returns a list of blocks with the same ID, but different meta (eg: wood returns 4 blocks)
      */
     @SideOnly(Side.CLIENT)
     @Override
-    public void getSubBlocks(Item itemIn, CreativeTabs tab, NonNullList<ItemStack> list) {
-        list.add(new ItemStack(itemIn));
-        list.add(new ItemStack(itemIn, 1, 1));
-        list.add(new ItemStack(itemIn, 1, 2));
+    public void getSubBlocks(CreativeTabs tab, NonNullList<ItemStack> list) {
+        list.add(new ItemStack(Item.getItemFromBlock(this)));
+        list.add(new ItemStack(Item.getItemFromBlock(this), 1, 1));
+        list.add(new ItemStack(Item.getItemFromBlock(this), 1, 2));
     }
 
     @Override
@@ -148,7 +148,7 @@ public class MaterialAnvil extends BlockFalling {
     }
 
     @Override
-    public void onEndFalling(World worldIn, BlockPos pos) {
+    public void onEndFalling(World worldIn, BlockPos pos, IBlockState p_176502_3_, IBlockState p_176502_4_) {
         worldIn.playEvent(1031, pos, 0);
     }
 

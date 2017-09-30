@@ -252,7 +252,7 @@ public class ContainerMaterialAnvil extends Container {
                             }
 
                             for (Enchantment enchantment : map.keySet()) {
-                                if (enchantment != null && enchantment != enchantment1 && !enchantment.func_191560_c(enchantment1)) {//func_191560_c checks if ench can apply with ench1 and vice versa
+                                if (enchantment != null && enchantment != enchantment1 && !enchantment.canApplyAtEnchantingTable(enchantment1)) {//func_191560_c checks if ench can apply with ench1 and vice versa
                                     flag1 = false;
                                     ++i;
                                 }
